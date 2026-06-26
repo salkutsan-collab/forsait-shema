@@ -133,6 +133,34 @@
   .imap-detail .dtags{margin-top:7px;display:flex;flex-wrap:wrap;gap:7px}
   .imap-detail .dtag{font-size:11.5px;padding:2px 9px;border-radius:12px;background:#eaf0ff;color:#21408a;font-weight:600}
   .imap-back{font-size:12.5px}
+  /* view switch */
+  .imap-views{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .imap-vbtn{border:1px solid var(--accent);background:#fff;border-radius:9px;padding:8px 15px;
+    font-size:13px;font-weight:700;cursor:pointer;color:var(--accent)}
+  .imap-vbtn.active{background:var(--accent);color:#fff}
+  /* graph */
+  .imap-graph{display:none;width:100%;overflow:auto;background:#fbfcff;border:1px solid var(--line);
+    border-radius:12px;padding:8px}
+  .imap-graph svg{display:block;width:100%;height:auto;min-width:620px}
+  .gnode{cursor:pointer;transition:.12s}
+  .gnode:hover{stroke:#0f1530 !important;stroke-width:3.5px}
+  .gedge{stroke:#c8d2e8;stroke-width:1}
+  .gedge.hub{stroke:#aab6d4;stroke-width:1.5}
+  .ghub-t{font:700 13px 'Segoe UI',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+  .gcenter-t{font:700 16px 'Segoe UI',sans-serif;fill:#0f1530;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+  .gdim{opacity:.08}
+  /* modal popup */
+  .imap-modal{display:none;position:fixed;inset:0;background:rgba(15,21,48,.55);z-index:999;
+    align-items:center;justify-content:center;padding:20px}
+  .imap-modal.open{display:flex}
+  .imap-modal-card{background:#fff;border-radius:16px;max-width:480px;width:100%;padding:24px 26px;
+    box-shadow:0 24px 70px rgba(15,21,48,.4);position:relative;animation:fade .2s ease}
+  .imap-modal-close{position:absolute;top:10px;right:14px;border:none;background:none;font-size:24px;
+    cursor:pointer;color:var(--muted);line-height:1}
+  .imap-modal-card .dt{font-weight:700;color:var(--ink);font-size:19px;padding-right:26px;line-height:1.25}
+  .imap-modal-card p{font-size:14px;margin-top:11px;color:#33405c}
+  .imap-modal-card .dtags{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
+  .imap-modal-card .dtag{font-size:11.5px;padding:3px 10px;border-radius:12px;background:#eaf0ff;color:#21408a;font-weight:600}
 </style>
 </head>
 <body>
@@ -713,12 +741,16 @@
   Дорожная карта (выше) - выверенное ядро из 10 проектов. Здесь - намеренный избыток смелых и
   непохожих идей под уникальность Политеха (суперкомпьютер, цифровые двойники, 8,5 тыс. иностранцев
   из 120+ стран, 1 место работодатель hh.ru, мощная индустрия), из которого выбирают, на чем
-  сфокусироваться. Идеи разложены по двум осям: скорость запуска и смелость. ★ - опирается на актив,
-  который другой вуз не повторит. Нажмите на фильтр направления и на любую идею.</p>
+  сфокусироваться. ★ - опирается на актив, который другой вуз не повторит. Доступны два вида:
+  <b>матрица</b> (скорость запуска и смелость) и <b>граф знаний</b> (кластеры по направлениям).
+  Фильтр выделяет направление; нажатие на идею открывает окно с пояснением.</p>
+  <div class="imap-views" id="imap-views"></div>
   <div class="imap-filters" id="imap-filters"></div>
   <div class="imap-grid" id="imap-grid"></div>
-  <div class="imap-detail" id="imap-detail">Нажмите на любую идею, чтобы увидеть ее суть.</div>
+  <div class="imap-graph" id="imap-graph"></div>
   <p class="imap-back" style="margin-top:12px"><a href="#ideamap" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&#8593; Наверх, к этапам форсайта</a></p>
+
+  <div class="imap-modal" id="imap-modal"><div class="imap-modal-card" id="imap-modal-card"></div></div>
 
   <footer>
     Форсайт-сессия по методике Rapid Foresight · Дирекция по работе с персоналом СПбПУ ·
@@ -870,7 +902,8 @@
   ];
   var BOLD = {1:'Умеренная смелость',2:'Высокая смелость',3:'Радикальная (комитет отвергнет)'};
   var SPEED = {'б':'Быстро (до 6-12 мес.)','д':'Долго (годы)'};
-  var imapFilter = 0;
+  var imapFilter = 0, imapView = 'grid';
+  function imapEl(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e;}
   function imapRender(){
     var grid = document.getElementById('imap-grid'); grid.innerHTML='';
     grid.appendChild(imapEl('div','',''));
@@ -894,28 +927,80 @@
       });
     });
   }
-  function imapEl(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e;}
+  function imapRenderGraph(){
+    var cx=550,cy=550,R1=255,R2=472,total=IDEAS.length;
+    var counts={}; IDEAS.forEach(function(x){counts[x.g]=(counts[x.g]||0)+1;});
+    var ang=-90, edges='', hubs='', leaves='';
+    Object.keys(GROUPS).forEach(function(k){
+      k=+k; var c=counts[k]||0; if(!c){return;}
+      var sweep=c/total*360, start=ang, mid=start+sweep/2, col=GROUPS[k].c;
+      var dimg=(imapFilter && imapFilter!==k);
+      var ha=mid*Math.PI/180, hx=cx+R1*Math.cos(ha), hy=cy+R1*Math.sin(ha);
+      edges+='<line class="gedge hub'+(dimg?' gdim':'')+'" x1="'+cx+'" y1="'+cy+'" x2="'+hx.toFixed(1)+'" y2="'+hy.toFixed(1)+'"/>';
+      IDEAS.filter(function(x){return x.g===k;}).forEach(function(x,i){
+        var a=start+(i+0.5)/c*sweep, ar=a*Math.PI/180;
+        var lx=cx+R2*Math.cos(ar), ly=cy+R2*Math.sin(ar);
+        edges+='<line class="gedge'+(dimg?' gdim':'')+'" x1="'+hx.toFixed(1)+'" y1="'+hy.toFixed(1)+'" x2="'+lx.toFixed(1)+'" y2="'+ly.toFixed(1)+'" stroke="'+col+'" opacity="0.3"/>';
+        var r=x.u?10:7;
+        leaves+='<circle class="gnode'+(dimg?' gdim':'')+'" data-id="'+x.id+'" cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="'+(x.u?'#b8860b':'#ffffff')+'" stroke-width="'+(x.u?3:1.5)+'"><title>'+x.id+'. '+x.n+(x.u?' ★':'')+'</title></circle>';
+      });
+      hubs+='<circle cx="'+hx.toFixed(1)+'" cy="'+hy.toFixed(1)+'" r="17" fill="'+col+'"'+(dimg?' opacity="0.12"':'')+'/>'+
+        '<text class="ghub-t" x="'+hx.toFixed(1)+'" y="'+hy.toFixed(1)+'"'+(dimg?' opacity="0.2"':'')+'>Г'+k+'</text>';
+      ang=start+sweep;
+    });
+    var svg='<svg viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg">'+edges+
+      '<circle cx="550" cy="550" r="42" fill="#0f1530"/>'+
+      '<text class="gcenter-t" x="550" y="543">108</text>'+
+      '<text class="gcenter-t" x="550" y="563" style="font-size:11px;fill:#9fb1e6">идей</text>'+
+      hubs+leaves+'</svg>';
+    var box=document.getElementById('imap-graph'); box.innerHTML=svg;
+    box.querySelectorAll('.gnode').forEach(function(n){
+      n.addEventListener('click',function(){
+        var id=n.getAttribute('data-id');
+        var x=IDEAS.filter(function(y){return y.id===id;})[0];
+        if(x) imapShow(x);
+      });
+    });
+  }
   function imapShow(x){
     var col = GROUPS[x.g].c;
-    document.getElementById('imap-detail').innerHTML =
-      '<div class="dt">'+(x.u?'<span class="star">&#9733; </span>':'')+x.id+'. '+x.n+'</div>'+
-      '<p style="margin-top:6px">'+x.d+'</p>'+
+    document.getElementById('imap-modal-card').innerHTML =
+      '<button class="imap-modal-close" onclick="imapCloseModal()">×</button>'+
+      '<div class="dt">'+(x.u?'<span style="color:#b8860b">&#9733; </span>':'')+x.id+'. '+x.n+'</div>'+
+      '<p>'+x.d+'</p>'+
       '<div class="dtags"><span class="dtag" style="background:'+col+'22;color:'+col+'">'+GROUPS[x.g].n+'</span>'+
       '<span class="dtag">'+SPEED[x.s]+'</span><span class="dtag">'+BOLD[x.b]+'</span>'+
       (x.u?'<span class="dtag" style="background:#fbeede;color:#a9640d">&#9733; уникально для Политеха</span>':'')+'</div>';
+    document.getElementById('imap-modal').classList.add('open');
+  }
+  function imapCloseModal(){document.getElementById('imap-modal').classList.remove('open');}
+  function imapDraw(){
+    var g=document.getElementById('imap-grid'), gr=document.getElementById('imap-graph');
+    if(imapView==='grid'){g.style.display='grid'; gr.style.display='none'; imapRender();}
+    else{g.style.display='none'; gr.style.display='block'; imapRenderGraph();}
+  }
+  function imapViews(){
+    var box=document.getElementById('imap-views'); box.innerHTML='';
+    [['grid','Матрица: скорость и смелость'],['graph','Граф знаний: по направлениям']].forEach(function(v){
+      var b=imapEl('button','imap-vbtn'+(imapView===v[0]?' active':''),v[1]);
+      b.onclick=function(){imapView=v[0]; imapViews(); imapDraw();};
+      box.appendChild(b);
+    });
   }
   function imapFilters(){
     var bar = document.getElementById('imap-filters'); bar.innerHTML='';
     var all = imapEl('button','imap-fbtn'+(imapFilter===0?' active':''),'Все направления');
-    all.onclick=function(){imapFilter=0;imapFilters();imapRender();}; bar.appendChild(all);
+    all.onclick=function(){imapFilter=0;imapFilters();imapDraw();}; bar.appendChild(all);
     Object.keys(GROUPS).forEach(function(k){
       k=+k; var b=imapEl('button','imap-fbtn'+(imapFilter===k?' active':''),'');
       b.innerHTML='<span class="fdot" style="background:'+GROUPS[k].c+'"></span>'+GROUPS[k].n;
-      b.onclick=function(){imapFilter=(imapFilter===k?0:k);imapFilters();imapRender();};
+      b.onclick=function(){imapFilter=(imapFilter===k?0:k);imapFilters();imapDraw();};
       bar.appendChild(b);
     });
   }
-  imapFilters(); imapRender();
+  document.getElementById('imap-modal').addEventListener('click',function(e){if(e.target===this)imapCloseModal();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')imapCloseModal();});
+  imapViews(); imapFilters(); imapDraw();
 </script>
 </body>
 </html>
