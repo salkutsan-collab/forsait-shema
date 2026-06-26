@@ -163,6 +163,37 @@
   .imap-modal-card p{font-size:14px;margin-top:11px;color:#33405c}
   .imap-modal-card .dtags{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
   .imap-modal-card .dtag{font-size:11.5px;padding:3px 10px;border-radius:12px;background:#eaf0ff;color:#21408a;font-weight:600}
+  /* SPA navigation + pages */
+  .nav{position:sticky;top:0;z-index:50;background:#0f1530;display:flex;flex-wrap:wrap;gap:3px;
+    padding:8px 12px;margin:0 -20px 18px;border-radius:0 0 12px 12px;box-shadow:0 2px 12px rgba(15,21,48,.2)}
+  .nav button{border:none;background:transparent;color:#c6d0ec;font-size:13px;font-weight:600;
+    padding:7px 12px;border-radius:8px;cursor:pointer;font-family:inherit}
+  .nav button:hover{background:rgba(255,255,255,.1);color:#fff}
+  .nav button.active{background:#2f5bd4;color:#fff}
+  .page{display:none}
+  .page.active{display:block;animation:fade .25s ease}
+  .home-about{font-size:15px;color:#33405c;max-width:860px;line-height:1.6}
+  .home-about p{margin-bottom:10px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:11px;margin:18px 0 26px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;text-align:center}
+  .stat .num{font-size:28px;font-weight:800;color:var(--accent);line-height:1}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.3}
+  .menu-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px}
+  .mcard{text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:17px 19px;
+    cursor:pointer;font-family:inherit;transition:.15s;box-shadow:0 4px 16px rgba(20,30,70,.05)}
+  .mcard:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(20,30,70,.12);border-color:var(--accent)}
+  .mcard .mt{font-size:16.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:9px}
+  .mcard .md{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.45}
+  .mcard .ic{font-size:21px;line-height:1}
+  .rcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+  .rcard h4{font-size:15px;color:var(--ink);margin-bottom:8px}
+  .rcard ul{margin:0;padding-left:18px;font-size:13.5px;color:#33405c;line-height:1.5}
+  .rtable{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+  .rtable th,.rtable td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  .rtable th{background:#eef1f9;font-weight:700}
+  .vlegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+  .vlegend span{display:inline-flex;align-items:center;gap:6px}
+  .vlegend i{width:12px;height:12px;border-radius:50%;display:inline-block}
 </style>
 </head>
 <body>
@@ -184,15 +215,29 @@
 </header>
 
 <div class="wrap">
+
+  <nav class="nav" id="nav"></nav>
+
+  <section class="page" id="pg-home">
+    <div class="home-about">
+      <p>Это рабочее пространство по кадровой стратегии СПбПУ. В его основе - форсайт развития кадров
+      по методике Rapid Foresight (быстрый форсайт: не угадывание будущего, а проектирование сегодняшних
+      шагов). Форсайт прошел полные 11 тактов с участием 22 экспертов в трех группах: от трендов надсистемы
+      и новых форматов труда до субъектной карты, ставок и дорожной карты из 10 проектов. Отдельно
+      проработаны три карьерных трека - преподаватели, научные работники и административный персонал.</p>
+      <p>Поверх выверенного ядра проведена дивергентная сессия: еще 12 экспертов в двух кругах собрали
+      банк из 108 идей под уникальность Политеха. Параллельно изучены 100 кейсов других вузов (Россия и
+      мир) и положение Политеха в рейтингах и в отзывах сотрудников. Ниже - разделы; выберите нужный.</p>
+    </div>
+    <div class="stats" id="home-stats"></div>
+    <div class="menu-cards" id="home-cards"></div>
+  </section>
+
+  <section class="page" id="pg-forsait">
   <div class="legend">
     <span><i class="sw" style="background:#2f7bd4"></i>Группа 1 - люди, демография, рынок труда</span>
     <span><i class="sw" style="background:#2aa775"></i>Группа 2 - технологии и форматы</span>
     <span><i class="sw" style="background:#d98a1f"></i>Группа 3 - экономика, государство</span>
-  </div>
-
-  <div class="navjump">
-    <a href="#ideamap">Карта идей: банк из 108 идей под уникальность Политеха &#8594;</a>
-    <span class="navjump-note">отдельный дивергентный слой поверх стратегии - запас, из которого выбирают фокус</span>
   </div>
 
   <h2 class="section">Этапы форсайта (такты)</h2>
@@ -738,25 +783,92 @@
       только с согласия; решения о людях остаются за людьми; беречь инженерно-технический персонал.</span></div>
   </div>
 
-  <h2 class="section" id="ideamap">Карта идей - банк из 108 идей</h2>
-  <p class="imap-intro">Это <b>дивергентный слой поверх стратегии</b>, а не замена дорожной карты.
-  Дорожная карта (выше) - выверенное ядро из 10 проектов. Здесь - намеренный избыток смелых и
-  непохожих идей под уникальность Политеха (суперкомпьютер, цифровые двойники, 8,5 тыс. иностранцев
-  из 120+ стран, 1 место работодатель hh.ru, мощная индустрия), из которого выбирают, на чем
-  сфокусироваться. ★ - опирается на актив, который другой вуз не повторит. Доступны два вида:
-  <b>матрица</b> (скорость запуска и смелость) и <b>граф знаний</b> (кластеры по направлениям).
-  Фильтр выделяет направление; нажатие на идею открывает окно с пояснением.</p>
+  </section>
+
+  <section class="page" id="pg-board">
+  <h2 class="section" id="board-title"></h2>
+  <p class="imap-intro" id="imap-intro"></p>
+  <div class="vlegend" id="imap-vlegend"></div>
   <div class="imap-views" id="imap-views"></div>
   <div class="imap-filters" id="imap-filters"></div>
   <div class="imap-grid" id="imap-grid"></div>
   <div class="imap-graph" id="imap-graph"></div>
-  <p class="imap-back" style="margin-top:12px"><a href="#ideamap" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&#8593; Наверх, к этапам форсайта</a></p>
+  </section>
+
+  <section class="page" id="pg-ratings">
+    <h2 class="section">Политех в рейтингах и в отзывах сотрудников</h2>
+    <p class="imap-intro">Кадровая картина со стороны (открытые данные на 26.06.2026). Коротко: Политех силен
+    брендом, наукой и инженерным профилем и уже признан рынком как работодатель. Болевые точки отзывов
+    совпадают с трендами форсайта: оплата ниже рынка, отсутствие ДМС, бюрократия, слабая внутренняя
+    коммуникация. Вуз уже начал повышать оклады - движение в сторону, которую подсказывает форсайт.</p>
+
+    <div class="rcard">
+      <h4>Рейтинги с кадровой составляющей</h4>
+      <div style="overflow-x:auto">
+      <table class="rtable">
+        <tr><th>Рейтинг</th><th>Позиция Политеха</th><th>Кадровая составляющая</th></tr>
+        <tr><td><b>hh.ru, работодатели 2025</b></td><td>1 место в отрасли "Наука и образование", единственный вуз СПб; 114 место среди крупнейших работодателей; 97,05 балла</td><td>Прямая оценка вуза как работодателя - сильный сигнал</td></tr>
+        <tr><td><b>RAEX, лучшие вузы</b></td><td>топ-8 (2024), 9 место (2026); по науке 5 место среди инженерных</td><td>Критерий "образование" включает кадровый потенциал</td></tr>
+        <tr><td><b>Нац. рейтинг (Интерфакс)</b></td><td>13-14 место (2024), вторая десятка (2025)</td><td>Качество и продуктивность кадров косвенно</td></tr>
+        <tr><td><b>QS World 2025</b></td><td>около 12-13 в России, 559-609 в мире</td><td>Прямые метрики: преподаватель/студент, цитирование на преподавателя</td></tr>
+        <tr><td><b>Три миссии (MosIUR)</b></td><td>351-400 в мире, 15-17 в России</td><td>Обеспеченность кадрами в составе "образования"</td></tr>
+      </table>
+      </div>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Масштаб: более 33 тыс. студентов (8,5 тыс.
+      иностранных из 120+ стран) и около 5,5 тыс. сотрудников. Зона роста - faculty-метрики QS: высокая
+      нагрузка на преподавателя и цитирование на одного сотрудника.</p>
+    </div>
+
+    <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="rcard" style="margin:0">
+        <h4 style="color:#1c7a52">Что хвалят (Dream Job: 4,1 из 5, рекомендуют 85%)</h4>
+        <ul>
+          <li>Стабильность и своевременная зарплата, чувство защищенности</li>
+          <li>Кампус, расположение, парк, метро рядом</li>
+          <li>Коллектив, интеллигентная среда</li>
+          <li>Сопровождение Центра по подбору и развитию персонала</li>
+          <li>Возможности самореализации и обучения, сильный бренд</li>
+        </ul>
+      </div>
+      <div class="rcard" style="margin:0">
+        <h4 style="color:#a4243b">На что жалуются</h4>
+        <ul>
+          <li>Оплата ниже рынка и растет медленнее инфляции - главная претензия</li>
+          <li>Нет ДМС (добровольного медицинского страхования)</li>
+          <li>Бюрократия и сложные согласования</li>
+          <li>Слабая коммуникация между подразделениями</li>
+          <li>Инфраструктура местами; ограниченный горизонтальный рост</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <h4>Зарплаты по отзывам (ориентир, не официально) и динамика</h4>
+      <ul>
+        <li>Доцент: 100-150 тыс. руб. (в среднем ~125). Старший преподаватель: 59-70 тыс.</li>
+        <li>Преподаватель: 20-70 тыс. (в среднем ~45). Специалист учебно-методической работы: 47-60 тыс.</li>
+        <li><b>Позитивно:</b> с 1 апреля 2025 оклады ассистентов повышены на 47% (до 76 тыс.), доцентов на 15% (до 104 тыс.) - прямое движение к закрытию разрыва в оплате.</li>
+      </ul>
+    </div>
+
+    <div class="rcard">
+      <h4>Связь с форсайтом и быстрые победы</h4>
+      <ul>
+        <li>Отзывы подтверждают тренды форсайта: разрыв в оплате, бюрократия, слабый соцпакет, удержание.</li>
+        <li>Быстро и дешево для бренда: ввести ДМС или облегченную версию; снять инфраструктурные раздражители; упростить документооборот и коммуникацию (проекты "Рутину - машине" и "единое окно").</li>
+        <li>Капитализировать звание лучшего работодателя hh.ru в привлечении молодых - редкий козырь среди вузов.</li>
+        <li>В приборную панель стратегии добавить рейтинг на Dream Job, долю рекомендующих и индекс лояльности (eNPS).</li>
+      </ul>
+      <p style="font-size:12.5px;color:var(--muted);margin-top:8px">Ограничение: отзывов немного (~86), выборка
+      смещена; зарплатные цифры - ориентир, реальную картину даст запрос в Отдел статистики.</p>
+    </div>
+  </section>
 
   <div class="imap-modal" id="imap-modal"><div class="imap-modal-card" id="imap-modal-card"></div></div>
 
   <footer>
-    Форсайт-сессия по методике Rapid Foresight · Дирекция по работе с персоналом СПбПУ ·
-    нажмите на кнопки внутри этапов, чтобы раскрыть формулировки. Пороговые значения событий - ориентир.
+    Рабочее пространство кадровой стратегии СПбПУ · форсайт Rapid Foresight, банк идей, кейсы вузов, рейтинги ·
+    Дирекция по работе с персоналом. Пороговые значения и цифры кейсов - ориентир, сверять по первоисточнику.
   </footer>
 </div>
 
@@ -904,24 +1016,145 @@
   ];
   var BOLD = {1:'Умеренная смелость',2:'Высокая смелость',3:'Радикальная (комитет отвергнет)'};
   var SPEED = {'б':'Быстро (до 6-12 мес.)','д':'Долго (годы)'};
-  var imapFilter = 0, imapView = 'grid';
+  var board = {set:'ideas', view:'grid', filter:0};
   function imapEl(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e;}
+
+  /* ---- данные кейсов других вузов ---- */
+  var VC={'работает':'#2aa775','смешанно':'#d98a1f','не работает':'#e23b57'};
+  var CATS={1:{n:'Карьерный трек (tenure-track)',c:'#2f7bd4'},2:{n:'Центры развития преподавания',c:'#2aa775'},3:{n:'Постдоки и молодежные лаборатории',c:'#d98a1f'},4:{n:'Реформа оценки труда',c:'#7b54c4'},5:{n:'Неустойчивая занятость (провалы)',c:'#c43d6e'},6:{n:'Эффективный контракт по показателям',c:'#d2691e'},7:{n:'Связка с индустрией',c:'#1c9aa8'},8:{n:'Кадровый резерв',c:'#3a5bd0'},9:{n:'Наставничество',c:'#16a085'},10:{n:'Признание преподавания (статусы)',c:'#b8860b'},11:{n:'Развитие лидерства',c:'#9b4dca'},12:{n:'Цифровая аналитика',c:'#7a8b1f'}};
+  var CASES=[
+{id:'К1', n:'НИУ ВШЭ - кадровый резерв', region:'РФ', cat:8, verdict:'работает', d:'Стартовые гранты, менторинг, -25% нагрузки для молодых; удержание 94-96% участников по данным вуза.'},
+{id:'К2', n:'ИТМО - ITMO.EXPERT', region:'РФ', cat:2, verdict:'смешанно', d:'Преподаватели ведут мастер-классы для коллег по цифровым технологиям; запуск состоялся, есть трудности.'},
+{id:'К3', n:'МФТИ - конкурс постдоков', region:'РФ', cat:3, verdict:'работает', d:'Открытый конкурс, срочные позиции, зарплата, жилье; привлечены постдоки с международным опытом.'},
+{id:'К4', n:'СПбГУ - программа PostDoc', region:'РФ', cat:3, verdict:'работает', d:'Первая вузовская постдок-программа в РФ; с 2013 прошло ~500 человек, больше половины из-за рубежа.'},
+{id:'К5', n:'МГУ - гранты молодым ученым', region:'РФ', cat:3, verdict:'смешанно', d:'Конкурс, срочный договор, зарплата, жилье по приоритетным темам; проверяемых итогов мало.'},
+{id:'К6', n:'ТПУ - персонализация ПК', region:'РФ', cat:2, verdict:'работает', d:'Диагностика дефицитов и модульные программы; повышение квалификации прошли более 300 преподавателей.'},
+{id:'К7', n:'Сетевой кадровый резерв вузов', region:'РФ', cat:8, verdict:'работает', d:'Консорциум ВШЭ, ТГУ, ТПУ, СПбПУ и др.; защита проектов резервистов, сложилось межвузовское сообщество.'},
+{id:'К8', n:'НИТУ МИСИС - Школа педмастерства', region:'РФ', cat:2, verdict:'смешанно', d:'ПК, онлайн-магистратура по EdTech, лаборатория педдизайна; структура работает, метрик нет.'},
+{id:'К9', n:'МГПУ - Мастерская преподавания', region:'РФ', cat:9, verdict:'смешанно', d:'Наставнические лаборатории и сообщества практики для молодых; модель развернута, строгих метрик нет.'},
+{id:'К10', n:'Эффективный контракт в вузах РФ', region:'РФ', cat:6, verdict:'не работает', d:'Привязка выплат к KPI; по ОНФ не защищает труд, уравниловка, низкий оклад, мотивация не сработала.'},
+{id:'К11', n:'Приоритет-2030 - молодежные лаборатории', region:'РФ', cat:3, verdict:'работает', d:'~940 лабораторий, >6 тыс. мест для молодых; 85% устойчивый коллектив, 76% удержание.'},
+{id:'К12', n:'Проект 5-100 (21 вуз)', region:'РФ', cat:3, verdict:'смешанно', d:'Субсидии под дорожные карты; доля в Web of Science выросла, но цель топ-100 не достигнута.'},
+{id:'К13', n:'НИУ ВШЭ - российские постдоки', region:'РФ', cat:3, verdict:'работает', d:'Конкурс на срочные исследовательские контракты без преподавания; ~60 постдоков из 20+ городов.'},
+{id:'К14', n:'Мегагранты (Постановление 220)', region:'РФ', cat:3, verdict:'работает', d:'Гранты до 100 млн руб./год; 345 лабораторий, 166 зарубежных ученых, ~70% признаны эффективными.'},
+{id:'К15', n:'Мегагранты - судьба после гранта', region:'РФ', cat:3, verdict:'не работает', d:'После прекращения финансирования - спад активности, закрытия лабораторий, спорные критерии отбора.'},
+{id:'К16', n:'ИТМО - ITMO Fellowship', region:'РФ', cat:3, verdict:'смешанно', d:'Международный рекрутинг ученых, 6 треков, пакет поддержки; топ по лидерству, но цифры скромные.'},
+{id:'К17', n:'ТюмГУ - Школа SAS', region:'РФ', cat:3, verdict:'смешанно', d:'До 80% иностранцев, годичные контракты; сильный коллектив, но в 2022 уволились 4 иностранца.'},
+{id:'К18', n:'Чувашский ГУ - управление талантами', region:'РФ', cat:8, verdict:'смешанно', d:'Центры работы с молодежью, наставничество, целевые программы; система описана, цифр мало.'},
+{id:'К19', n:'ТПУ - кадровый резерв с ассессментом', region:'РФ', cat:8, verdict:'работает', d:'Тесты SHL, ассессмент-центры; за 2002-2012 через резерв 370 человек, 11,9% на руководящие должности.'},
+{id:'К20', n:'ЮФУ - Школа молодого преподавателя', region:'РФ', cat:8, verdict:'работает', d:'Мотивированных аспирантов берут ассистентами на год; 34 выпускника на факультетах, 152 в резерве.'},
+{id:'К21', n:'ТюмГУ - переобучение под ИОТ', region:'РФ', cat:2, verdict:'смешанно', d:'Курс по индивидуализации и работе с элективами; модель тиражируется, но цифр по ППС мало.'},
+{id:'К22', n:'СФУ - факультет ПК преподавателей', region:'РФ', cat:2, verdict:'смешанно', d:'Бесплатные психолого-педагогические и онлайн-программы; во многом обязательная процедура раз в 5 лет.'},
+{id:'К23', n:'ДВФУ - кадровый резерв молодых', region:'РФ', cat:8, verdict:'смешанно', d:'Вовлечение молодых в исследования, стажировки, школа Megascience Lab; есть планы, итогов мало.'},
+{id:'К24', n:'НГУ - ПК под профстандарт педагога', region:'РФ', cat:2, verdict:'смешанно', d:'Курсы для всех категорий ППС, практика в Moodle; привязаны к профстандарту, данных об охвате нет.'},
+{id:'К25', n:'УрФУ - Школа кадрового резерва', region:'РФ', cat:8, verdict:'смешанно', d:'Отбор по принципам ассессмент-центра, индивидуальные планы; инструменты есть, независимых данных мало.'},
+{id:'К26', n:'СамГТУ - Институт допобразования', region:'РФ', cat:2, verdict:'смешанно', d:'12 программ ПК и переподготовка преподавателей; широкий практико-ориентированный набор, метрик мало.'},
+{id:'К27', n:'КФУ - Преподаватель глазами студента', region:'РФ', cat:6, verdict:'не работает', d:'Балльно-рейтинговая система и анкета студентов; непрозрачность, упор на количество, ~60% против.'},
+{id:'К28', n:'НИУ ВШЭ ФКН - кафедра Сбербанка', region:'РФ', cat:7, verdict:'работает', d:'Специалисты Сбера ведут занятия с преподавателями; выпускники в Сбер, Яндекс, Ozon, программа >7 лет.'},
+{id:'К29', n:'МФТИ - Система Физтеха', region:'РФ', cat:7, verdict:'работает', d:'Базовые кафедры: спецдисциплины ведут ученые и практики на своем оборудовании; модель работает десятилетиями.'},
+{id:'К30', n:'РГУ нефти и газа им. Губкина', region:'РФ', cat:7, verdict:'смешанно', d:'Базовая кафедра на Газпром ВНИИГАЗ, преподаватели-практики; кафедра молодая (с 2023).'},
+{id:'К31', n:'ВГУЭС - базовые кафедры с 1С и РАН', region:'РФ', cat:7, verdict:'работает', d:'Специалисты 1С и ученые ИАПУ ведут занятия; часть выпускников остается в институте и IT-компаниях.'},
+{id:'К32', n:'НИТУ МИСИС - металлургия', region:'РФ', cat:7, verdict:'смешанно', d:'Проекты с Норникелем, Русалом, НЛМК; трудоустройство есть, отдельная базовая кафедра не описана.'},
+{id:'К33', n:'Корпоративный университет РЖД', region:'РФ', cat:7, verdict:'работает', d:'Эталонные программы и сертификация преподавателей вузов; за год с 2 до 8 вузов, >700 участников.'},
+{id:'К34', n:'ИРНИТУ - кафедра при авиазаводе', region:'РФ', cat:7, verdict:'работает', d:'Кафедра авиамашиностроения в связке с заводом Иркут, обучение на производстве; рост закрепления выпускников.'},
+{id:'К35', n:'Эффективный контракт - имитация', region:'РФ', cat:6, verdict:'не работает', d:'Оплата по показателям превращает преподавателей в бизнес-единицы; имитация и манипуляция отчетностью.'},
+{id:'К36', n:'Эффективный контракт - текучесть', region:'РФ', cat:5, verdict:'не работает', d:'Урезанные стимулирующие, сокращения за нагрузку; >половины кафедр потеряли преподавателей до 30 лет.'},
+{id:'К37', n:'Выплаты за публикации - имитация', region:'РФ', cat:6, verdict:'не работает', d:'Требование 1-3 статей в год породило рынок посредников и мусорные журналы; качество подменяется числом.'},
+{id:'К38', n:'УрФУ - Молодой ученый (Постдок)', region:'РФ', cat:3, verdict:'смешанно', d:'Конкурс в 2 этапа с трудоустройством постдоков в вузе; формат действует, удержание не подтверждено.'},
+{id:'К39', n:'МГУ - система ИСТИНА', region:'РФ', cat:12, verdict:'смешанно', d:'Учет публикаций, грантов, патентов с 2012 для управления и стимулирования; критика погони за баллами.'},
+{id:'К40', n:'СФУ - совет молодых, жилсертификаты', region:'РФ', cat:3, verdict:'смешанно', d:'Совет молодых ученых и жилищные сертификаты; механизм есть, но сертификаты остродефицитны.'},
+{id:'К41', n:'РУТ (МИИТ) - рейтинг ППС', region:'РФ', cat:12, verdict:'смешанно', d:'Баллы за публикации, гранты, патенты влияют на выплаты; формализует оценку, риск бюрократизации.'},
+{id:'К42', n:'УдГУ - рейтинговая оценка ППС', region:'РФ', cat:12, verdict:'смешанно', d:'Балльная система по учебной, научной, методической работе; методика описана, данных о влиянии мало.'},
+{id:'К43', n:'Эффективный контракт - анализ СОЦИС', region:'РФ', cat:6, verdict:'не работает', d:'Привязка выплат к показателям; труднодостижимые критерии, интенсификация труда, низкая оплата.'},
+{id:'К44', n:'Омский регион - наставничество', region:'РФ', cat:9, verdict:'работает', d:'Наставник, консультации, конкурс Молодой преподаватель, цифровая среда; рост скорости адаптации.'},
+{id:'К45', n:'Технические вузы Москвы - отток молодых', region:'РФ', cat:5, verdict:'не работает', d:'Анализ оттока: >10% старшекурсников имеют офферы за рубежом; точечные меры без улучшения условий не держат.'},
+{id:'К46', n:'Univ. of Michigan - центр CRLT', region:'Мир', cat:2, verdict:'работает', d:'Первый в США центр преподавания (1962): консультации, академии, гранты; модель тиражирована по стране.'},
+{id:'К47', n:'UMass Amherst - Mutual Mentoring', region:'Мир', cat:9, verdict:'работает', d:'Сети наставников вместо одного, микрогранты командам; >20 лет, оценено в публикациях, перенято другими.'},
+{id:'К48', n:'UW-Madison - обучение комиссий', region:'Мир', cat:1, verdict:'работает', d:'Семинары WISELI о неосознанных предубеждениях при найме; рост доли нанятых женщин, эффект доза-ответ.'},
+{id:'К49', n:'UW-Madison - наем пар (dual-career)', region:'Мир', cat:11, verdict:'смешанно', d:'Центральное финансирование трудоустройства партнеров; используется, но слабо влияет на число женщин в STEM.'},
+{id:'К50', n:'Кафедры экономики США - tenure clock', region:'Мир', cat:1, verdict:'не работает', d:'Нейтральный +1 год до tenure при ребенке: мужчинам +17 п.п., женщинам -19 п.п. к получению постоянной.'},
+{id:'К51', n:'Carnegie Mellon - центр Eberly', region:'Мир', cat:2, verdict:'работает', d:'Консультации один на один, семинары, дайджесты о преподавании; консультации ведут к изменениям курсов.'},
+{id:'К52', n:'CU Boulder - Science Education Init.', region:'Мир', cat:2, verdict:'смешанно', d:'Постдоки-феллоу перестраивают курсы: 102 преподавателя, 71 курс; устойчивость после проекта изучена слабо.'},
+{id:'К53', n:'VCU - программа NCFDD', region:'Мир', cat:2, verdict:'смешанно', d:'Оплата буткемпа с коучингом по продуктивности; провайдер заявляет 97%, независимой оценки по вузу нет.'},
+{id:'К54', n:'Community colleges США - совместители', region:'Мир', cat:5, verdict:'не работает', d:'Развитие adjunct через сообщества и значки; качество не ниже, но участие затруднено, обучение поверхностно.'},
+{id:'К55', n:'CUNY - казуализация', region:'Мир', cat:5, verdict:'не работает', d:'Наем по курсам (~3200 долл.); гарантии лишь у ~2200 из >10 000 совместителей - провал для труда и качества.'},
+{id:'К56', n:'UCL - программа Arena и трек', region:'Мир', cat:10, verdict:'работает', d:'Статусы Fellowship и должности по преподаванию; >900 статусов, 6 человек продвинуты до профессора.'},
+{id:'К57', n:'Cambridge - Academic Career Pathways', region:'Мир', cat:1, verdict:'смешанно', d:'Отдельный путь для преподавателей до Teaching Professor; пути созданы, широта продвижения под вопросом.'},
+{id:'К58', n:'Edinburgh - сертификат PgCAP', region:'Мир', cat:2, verdict:'работает', d:'Аккредитованный курс с признанием статуса Fellow HEA по окончании; обязательность для probation уточняется.'},
+{id:'К59', n:'Advance HE - рамка PSF и Fellowship', region:'Мир', cat:10, verdict:'работает', d:'Отраслевая рамка стандартов и статусы признания преподавания; закреплена в секторе, выходит за рубеж.'},
+{id:'К60', n:'Advance HE Aurora - лидерство женщин', region:'Мир', cat:11, verdict:'смешанно', d:'5-месячная программа лидерства для женщин; >7000 участниц, рост мотивации по самооценке, не по карьере.'},
+{id:'К61', n:'Trinity College Dublin - CAP', region:'Мир', cat:2, verdict:'смешанно', d:'Кредитные модули и ежегодный симпозиум по преподаванию; инфраструктура есть, данные об охвате уточняются.'},
+{id:'К62', n:'National Forum Ирландия - рамка ПК', region:'Мир', cat:2, verdict:'смешанно', d:'Общенациональная рамка профразвития для всех преподающих; внедрена, но переход к практике сложен.'},
+{id:'К63', n:'Newcastle - модель нагрузки', region:'Мир', cat:5, verdict:'не работает', d:'Тарифы на задачи расходятся с фактом по данным профсоюза; модель не защищает от перегрузки, забастовки.'},
+{id:'К64', n:'Warwick - казуализация', region:'Мир', cat:5, verdict:'не работает', d:'Срочные контракты и наем через Unitemps; ~66,5% негарантированной занятости, кампания против казуализации.'},
+{id:'К65', n:'Великобритания - давление REF', region:'Мир', cat:4, verdict:'смешанно', d:'Периодическая оценка исследований и гиперселективный отбор; Stern Review признал стресс, давление сохраняется.'},
+{id:'К66', n:'Германия - Tenure-Track-Programm', region:'Мир', cat:1, verdict:'смешанно', d:'Федеральная программа: 1000 профессур с гарантией перехода в постоянную; заполнена, но неопределенность осталась.'},
+{id:'К67', n:'Германия - WissZeitVG, #IchBinHanna', region:'Мир', cat:5, verdict:'не работает', d:'Закон допускает до 12 лет срочной занятости без постоянных ставок; закрепил нестабильность, протест 2021.'},
+{id:'К68', n:'TUM - Faculty Tenure Track', region:'Мир', cat:1, verdict:'работает', d:'Старт W2, перевод в постоянную W3 после 6 лет по оценке; стала основой национальной программы.'},
+{id:'К69', n:'Нидерланды - Recognition & Rewards', region:'Мир', cat:4, verdict:'смешанно', d:'Нацреформа оценки на основе DORA, нарративные CV; внедряется широко, есть сопротивление и риск для молодых.'},
+{id:'К70', n:'Utrecht University - отказ от метрик', region:'Мир', cat:4, verdict:'смешанно', d:'Оценка по открытой науке и командной работе вместо импакт-фактора; образец, но острая полемика среди ученых.'},
+{id:'К71', n:'Франция - Chaire professeur junior', region:'Мир', cat:1, verdict:'не работает', d:'Новый контракт 3-6 лет с переходом в штат через комиссию; 78% мнений против, Высший совет против декрета.'},
+{id:'К72', n:'Aalto University - tenure track', region:'Мир', cat:1, verdict:'работает', d:'Лестница assistant-associate-full; с 2010 ~300 профессоров, >40% из-за рубежа, награда ЕК за HR.'},
+{id:'К73', n:'Lund University - лидерство AKKA', region:'Мир', cat:11, verdict:'работает', d:'Годовая программа лидерства с акцентом на гендерное равенство; рост числа женщин-руководителей, модель скопирована.'},
+{id:'К74', n:'ETH Zurich - Dual Career Advice', region:'Мир', cat:11, verdict:'работает', d:'Персональный консультант для партнеров профессоров, помощь с дипломами; встроена в процесс найма.'},
+{id:'К75', n:'KU Leuven - YouReCa для постдоков', region:'Мир', cat:3, verdict:'смешанно', d:'Карьерный центр, менторство, хартия постдока с ежегодными беседами; механизмы системны, оценки нет.'},
+{id:'К76', n:'Tsinghua - повышайся или уходи', region:'Мир', cat:1, verdict:'смешанно', d:'Пионер контрактов вверх или вон (1993); подняло публикации, распространилось, позже критика за давление.'},
+{id:'К77', n:'Китай - tenure-track и продуктивность', region:'Мир', cat:1, verdict:'работает', d:'Сравнение систем найма: +67,5% статей в ведущих экономических журналах у нанятых по tenure-track.'},
+{id:'К78', n:'Китай - откат политики вверх или вон', region:'Мир', cat:5, verdict:'не работает', d:'Контракт без гарантий и перевод при провале; выгорание, перепроизводство кандидатов, отказ ряда вузов в 2025.'},
+{id:'К79', n:'NUS Сингапур - Educator Track', region:'Мир', cat:10, verdict:'смешанно', d:'Отдельная траектория для преподавателей-практиков; после уточнения критериев выросло число повышений.'},
+{id:'К80', n:'NTU Сингапур - центр CTLP', region:'Мир', cat:2, verdict:'смешанно', d:'Центр развития преподавателей с международной сертификацией Fellowship; система есть, данных об эффекте мало.'},
+{id:'К81', n:'HKUST Гонконг - субстантивация', region:'Мир', cat:1, verdict:'смешанно', d:'Tenure-track и грант Early Career в первые 3 года; четкая карьера и деньги, но ограниченные гарантии.'},
+{id:'К82', n:'Япония - MEXT tenure-track', region:'Мир', cat:1, verdict:'смешанно', d:'Госпрограмма для молодых с 2007: >1000 позиций к 2023; но снижение числа аспирантов и нехватка времени на науку.'},
+{id:'К83', n:'Южная Корея - tenure vs BK21', region:'Мир', cat:6, verdict:'смешанно', d:'Tenure-track дает большую вовлеченность, но метрики BK21 перекашивают время и усиливают давление публикаций.'},
+{id:'К84', n:'Австралия - казуализация', region:'Мир', cat:5, verdict:'не работает', d:'~16% штата казуалы, до 2/3 незащищены; поправка к Fair Work Act 2023 не улучшила защищенность, отток и выгорание.'},
+{id:'К85', n:'Univ. of Auckland - сеть MOANA', region:'Мир', cat:9, verdict:'работает', d:'Сеть наставничества для тихоокеанских молодых ученых на основе практик talanoa; устойчивая, удержание уточняется.'},
+{id:'К86', n:'DORA - декларация об оценке', region:'Мир', cat:4, verdict:'смешанно', d:'Обязательство не использовать импакт-фактор при найме; тысячи подписантов, но старые метрики живут на практике.'},
+{id:'К87', n:'CoARA - коалиция оценки', region:'Мир', cat:4, verdict:'смешанно', d:'10 обязательств и план действий за год; >500 подписантов, но соглашение необязывающее, итог не подтвержден.'},
+{id:'К88', n:'Leiden Manifesto - метрики', region:'Мир', cat:4, verdict:'работает', d:'10 принципов корректной библиометрии (числа поддерживают, а не заменяют экспертизу); широко цитируется.'},
+{id:'К89', n:'Ghent University - модель доверия', region:'Мир', cat:4, verdict:'работает', d:'Отмена индивидуальных целевых показателей в пользу вклада в цели коллектива; профессора ценят свободу.'},
+{id:'К90', n:'UKRI/Glasgow - нарративные CV', region:'Мир', cat:4, verdict:'смешанно', d:'Структурированное резюме вместо метрик; перспективно, но трудозатратно, без обучения рецензентов эффект ограничен.'},
+{id:'К91', n:'C-Change - групповое наставничество', region:'Мир', cat:9, verdict:'работает', d:'Годичная программа в медицине, РКИ на 40 преподавателях; выше самоэффективность, эмпатия, навыки против дискриминации.'},
+{id:'К92', n:'Китай - отмена премий за публикации', region:'Мир', cat:6, verdict:'не работает', d:'Премии до ~165 тыс. долл. за статьи в Nature/Science породили фабрики статей и накрутку; реформа 2020 их запретила.'},
+{id:'К93', n:'Gaming the Metrics - манипуляции', region:'Мир', cat:6, verdict:'не работает', d:'Под давлением publish or perish растут салями-нарезка, цитатные кольца, накрутка H-индекса, фиктивное рецензирование.'}
+  ];
+
+  /* ---- конфигурация двух наборов ---- */
+  function dtag(t,c){return '<span class="dtag" style="background:'+c+'22;color:'+c+'">'+t+'</span>';}
+  function ptag(t){return '<span class="dtag">'+t+'</span>';}
+  var DSETS={
+    ideas:{items:IDEAS,groups:GROUPS,gid:function(x){return x.g;},pfx:'Г',
+      colKeys:['б','д'],colLab:{'б':'Быстро в запуске','д':'Долго'},colOf:function(x){return x.s;},
+      rowKeys:[1,2,3],rowLab:BOLD,rowOf:function(x){return x.b;},
+      leaf:function(x){return GROUPS[x.g].c;},star:function(x){return !!x.u;},
+      center:'108',centerSub:'идей',legend:'',
+      title:'Банк идей - 108 идей под уникальность Политеха',
+      intro:'Дивергентный слой поверх стратегии - запас, из которого выбирают фокус. Матрица: оси скорость запуска и смелость. Граф: кластеры по 12 направлениям. ★ опирается на актив, который другой вуз не повторит. Фильтр выделяет направление, нажатие на идею открывает окно с пояснением.',
+      tags:function(x){return dtag(GROUPS[x.g].n,GROUPS[x.g].c)+ptag(SPEED[x.s])+ptag(BOLD[x.b])+(x.u?'<span class="dtag" style="background:#fbeede;color:#a9640d">&#9733; уникально для Политеха</span>':'');}},
+    cases:{items:CASES,groups:CATS,gid:function(x){return x.cat;},pfx:'',
+      colKeys:['РФ','Мир'],colLab:{'РФ':'Россия','Мир':'Мир'},colOf:function(x){return x.region;},
+      rowKeys:['работает','смешанно','не работает'],rowLab:{'работает':'Работает','смешанно':'Смешанно','не работает':'Не работает'},rowOf:function(x){return x.verdict;},
+      leaf:function(x){return VC[x.verdict];},star:function(){return false;},
+      center:'93',centerSub:'кейса',
+      legend:'<span><i style="background:#2aa775"></i>работает</span><span><i style="background:#d98a1f"></i>смешанно</span><span><i style="background:#e23b57"></i>не работает</span>',
+      title:'Кейсы других вузов - 93 примера (Россия и мир)',
+      intro:'Опыт 100 кейсов: что работает и что дает не тот результат. Матрица: оси регион и результат. Граф: кластеры по типам механизмов, цвет узла означает результат. Фильтр выделяет тип механизма, нажатие на кейс открывает окно.',
+      tags:function(x){return dtag(CATS[x.cat].n,CATS[x.cat].c)+ptag('Регион: '+x.region)+dtag('Результат: '+x.verdict,VC[x.verdict]);}}
+  };
+
   function imapRender(){
-    var grid = document.getElementById('imap-grid'); grid.innerHTML='';
+    var D=DSETS[board.set], grid=document.getElementById('imap-grid'); grid.innerHTML='';
+    grid.style.gridTemplateColumns='78px repeat('+D.colKeys.length+',1fr)';
     grid.appendChild(imapEl('div','',''));
-    grid.appendChild(imapEl('div','imap-colh','Быстро в запуске'));
-    grid.appendChild(imapEl('div','imap-colh','Долго'));
-    [1,2,3].forEach(function(bv){
-      grid.appendChild(imapEl('div','imap-rowh',BOLD[bv]));
-      ['б','д'].forEach(function(sv){
-        var cell = imapEl('div','imap-cell','');
-        IDEAS.filter(function(x){return x.b===bv && x.s===sv;}).forEach(function(x){
-          var chip = document.createElement('div');
-          chip.className='imap-chip';
-          var col = GROUPS[x.g].c;
-          chip.style.borderColor = col; chip.style.borderLeftColor = col;
-          chip.innerHTML = (x.u?'<span class="star">&#9733; </span>':'')+'<b style="color:'+col+'">'+x.id+'</b> '+x.n;
-          if(imapFilter && x.g!==imapFilter) chip.className+=' dim';
+    D.colKeys.forEach(function(ck){grid.appendChild(imapEl('div','imap-colh',D.colLab[ck]));});
+    D.rowKeys.forEach(function(rk){
+      grid.appendChild(imapEl('div','imap-rowh',D.rowLab[rk]));
+      D.colKeys.forEach(function(ck){
+        var cell=imapEl('div','imap-cell','');
+        D.items.filter(function(x){return D.rowOf(x)===rk && D.colOf(x)===ck;}).forEach(function(x){
+          var col=D.groups[D.gid(x)].c, chip=document.createElement('div'); chip.className='imap-chip';
+          chip.style.borderColor=col; chip.style.borderLeftColor=col;
+          chip.innerHTML=(D.star(x)?'<span class="star">&#9733; </span>':'')+'<b style="color:'+col+'">'+x.id+'</b> '+x.n;
+          if(board.filter && D.gid(x)!==board.filter) chip.className+=' dim';
           chip.onclick=function(){imapShow(x);};
           cell.appendChild(chip);
         });
@@ -930,82 +1163,120 @@
     });
   }
   function imapRenderGraph(){
-    var cx=550,cy=550,R1=255,R2=472,total=IDEAS.length;
-    var counts={}; IDEAS.forEach(function(x){counts[x.g]=(counts[x.g]||0)+1;});
+    var D=DSETS[board.set], cx=550,cy=550,R1=255,R2=472,total=D.items.length;
+    var counts={}; D.items.forEach(function(x){var k=D.gid(x);counts[k]=(counts[k]||0)+1;});
+    var ids=Object.keys(D.groups).map(Number);
     var ang=-90, edges='', hubs='', leaves='';
-    Object.keys(GROUPS).forEach(function(k){
-      k=+k; var c=counts[k]||0; if(!c){return;}
-      var sweep=c/total*360, start=ang, mid=start+sweep/2, col=GROUPS[k].c;
-      var dimg=(imapFilter && imapFilter!==k);
+    ids.forEach(function(k){
+      var c=counts[k]||0; if(!c){return;}
+      var sweep=c/total*360, start=ang, mid=start+sweep/2, col=D.groups[k].c;
+      var dimg=(board.filter && board.filter!==k);
       var ha=mid*Math.PI/180, hx=cx+R1*Math.cos(ha), hy=cy+R1*Math.sin(ha);
       edges+='<line class="gedge hub'+(dimg?' gdim':'')+'" x1="'+cx+'" y1="'+cy+'" x2="'+hx.toFixed(1)+'" y2="'+hy.toFixed(1)+'"/>';
-      IDEAS.filter(function(x){return x.g===k;}).forEach(function(x,i){
-        var a=start+(i+0.5)/c*sweep, ar=a*Math.PI/180;
-        var lx=cx+R2*Math.cos(ar), ly=cy+R2*Math.sin(ar);
+      D.items.filter(function(x){return D.gid(x)===k;}).forEach(function(x,i){
+        var a=start+(i+0.5)/c*sweep, ar=a*Math.PI/180, lx=cx+R2*Math.cos(ar), ly=cy+R2*Math.sin(ar);
+        var lc=D.leaf(x), st=D.star(x);
         edges+='<line class="gedge'+(dimg?' gdim':'')+'" x1="'+hx.toFixed(1)+'" y1="'+hy.toFixed(1)+'" x2="'+lx.toFixed(1)+'" y2="'+ly.toFixed(1)+'" stroke="'+col+'" opacity="0.3"/>';
-        var r=x.u?10:7;
-        leaves+='<circle class="gnode'+(dimg?' gdim':'')+'" data-id="'+x.id+'" cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="'+(x.u?'#b8860b':'#ffffff')+'" stroke-width="'+(x.u?3:1.5)+'"><title>'+x.id+'. '+x.n+(x.u?' ★':'')+'</title></circle>';
+        var r=st?10:7;
+        leaves+='<circle class="gnode'+(dimg?' gdim':'')+'" data-id="'+x.id+'" cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="'+r+'" fill="'+lc+'" stroke="'+(st?'#b8860b':'#ffffff')+'" stroke-width="'+(st?3:1.5)+'"><title>'+x.id+'. '+x.n+'</title></circle>';
       });
-      var lxr=cx+(R1+26)*Math.cos(ha), lyr=cy+(R1+26)*Math.sin(ha);
-      var anc=(Math.cos(ha)>=-0.05)?'start':'end';
+      var lxr=cx+(R1+26)*Math.cos(ha), lyr=cy+(R1+26)*Math.sin(ha), anc=(Math.cos(ha)>=-0.05)?'start':'end';
       hubs+='<circle cx="'+hx.toFixed(1)+'" cy="'+hy.toFixed(1)+'" r="17" fill="'+col+'"'+(dimg?' opacity="0.12"':'')+'/>'+
-        '<text class="ghub-t" x="'+hx.toFixed(1)+'" y="'+hy.toFixed(1)+'"'+(dimg?' opacity="0.2"':'')+'>Г'+k+'</text>'+
-        '<text class="ghub-name" x="'+lxr.toFixed(1)+'" y="'+lyr.toFixed(1)+'" text-anchor="'+anc+'"'+(dimg?' opacity="0.22"':'')+'>Г'+k+'. '+GROUPS[k].n+'</text>';
+        '<text class="ghub-t" x="'+hx.toFixed(1)+'" y="'+hy.toFixed(1)+'"'+(dimg?' opacity="0.2"':'')+'>'+(D.pfx||'')+k+'</text>'+
+        '<text class="ghub-name" x="'+lxr.toFixed(1)+'" y="'+lyr.toFixed(1)+'" text-anchor="'+anc+'"'+(dimg?' opacity="0.22"':'')+'>'+(D.pfx||'')+k+'. '+D.groups[k].n+'</text>';
       ang=start+sweep;
     });
     var svg='<svg viewBox="-170 -60 1540 1220" xmlns="http://www.w3.org/2000/svg">'+edges+
       '<circle cx="550" cy="550" r="42" fill="#0f1530"/>'+
-      '<text class="gcenter-t" x="550" y="543">108</text>'+
-      '<text class="gcenter-t" x="550" y="563" style="font-size:11px;fill:#9fb1e6">идей</text>'+
+      '<text class="gcenter-t" x="550" y="543">'+D.center+'</text>'+
+      '<text class="gcenter-t" x="550" y="563" style="font-size:11px;fill:#9fb1e6">'+D.centerSub+'</text>'+
       hubs+leaves+'</svg>';
     var box=document.getElementById('imap-graph'); box.innerHTML=svg;
     box.querySelectorAll('.gnode').forEach(function(n){
       n.addEventListener('click',function(){
-        var id=n.getAttribute('data-id');
-        var x=IDEAS.filter(function(y){return y.id===id;})[0];
+        var id=n.getAttribute('data-id'), x=D.items.filter(function(y){return y.id===id;})[0];
         if(x) imapShow(x);
       });
     });
   }
   function imapShow(x){
-    var col = GROUPS[x.g].c;
+    var D=DSETS[board.set];
     document.getElementById('imap-modal-card').innerHTML =
       '<button class="imap-modal-close" onclick="imapCloseModal()">×</button>'+
-      '<div class="dt">'+(x.u?'<span style="color:#b8860b">&#9733; </span>':'')+x.id+'. '+x.n+'</div>'+
-      '<p>'+x.d+'</p>'+
-      '<div class="dtags"><span class="dtag" style="background:'+col+'22;color:'+col+'">'+GROUPS[x.g].n+'</span>'+
-      '<span class="dtag">'+SPEED[x.s]+'</span><span class="dtag">'+BOLD[x.b]+'</span>'+
-      (x.u?'<span class="dtag" style="background:#fbeede;color:#a9640d">&#9733; уникально для Политеха</span>':'')+'</div>';
+      '<div class="dt">'+(D.star(x)?'<span style="color:#b8860b">&#9733; </span>':'')+x.id+'. '+x.n+'</div>'+
+      '<p>'+x.d+'</p><div class="dtags">'+D.tags(x)+'</div>';
     document.getElementById('imap-modal').classList.add('open');
   }
   function imapCloseModal(){document.getElementById('imap-modal').classList.remove('open');}
   function imapDraw(){
+    var D=DSETS[board.set];
+    document.getElementById('board-title').textContent=D.title;
+    document.getElementById('imap-intro').textContent=D.intro;
+    document.getElementById('imap-vlegend').innerHTML=D.legend||'';
     var g=document.getElementById('imap-grid'), gr=document.getElementById('imap-graph');
-    if(imapView==='grid'){g.style.display='grid'; gr.style.display='none'; imapRender();}
+    if(board.view==='grid'){g.style.display='grid'; gr.style.display='none'; imapRender();}
     else{g.style.display='none'; gr.style.display='block'; imapRenderGraph();}
   }
   function imapViews(){
     var box=document.getElementById('imap-views'); box.innerHTML='';
-    [['grid','Матрица: скорость и смелость'],['graph','Граф знаний: по направлениям']].forEach(function(v){
-      var b=imapEl('button','imap-vbtn'+(imapView===v[0]?' active':''),v[1]);
-      b.onclick=function(){imapView=v[0]; imapViews(); imapDraw();};
+    [['grid','Матрица'],['graph','Граф знаний']].forEach(function(v){
+      var b=imapEl('button','imap-vbtn'+(board.view===v[0]?' active':''),v[1]);
+      b.onclick=function(){board.view=v[0]; imapViews(); imapDraw();};
       box.appendChild(b);
     });
   }
   function imapFilters(){
-    var bar = document.getElementById('imap-filters'); bar.innerHTML='';
-    var all = imapEl('button','imap-fbtn'+(imapFilter===0?' active':''),'Все направления');
-    all.onclick=function(){imapFilter=0;imapFilters();imapDraw();}; bar.appendChild(all);
-    Object.keys(GROUPS).forEach(function(k){
-      k=+k; var b=imapEl('button','imap-fbtn'+(imapFilter===k?' active':''),'');
-      b.innerHTML='<span class="fdot" style="background:'+GROUPS[k].c+'"></span>'+GROUPS[k].n;
-      b.onclick=function(){imapFilter=(imapFilter===k?0:k);imapFilters();imapDraw();};
+    var D=DSETS[board.set], bar=document.getElementById('imap-filters'); bar.innerHTML='';
+    var all=imapEl('button','imap-fbtn'+(board.filter===0?' active':''),'Все');
+    all.onclick=function(){board.filter=0;imapFilters();imapDraw();}; bar.appendChild(all);
+    Object.keys(D.groups).map(Number).forEach(function(k){
+      var b=imapEl('button','imap-fbtn'+(board.filter===k?' active':''),'');
+      b.innerHTML='<span class="fdot" style="background:'+D.groups[k].c+'"></span>'+(D.pfx||'')+k+'. '+D.groups[k].n;
+      b.onclick=function(){board.filter=(board.filter===k?0:k);imapFilters();imapDraw();};
       bar.appendChild(b);
     });
   }
+  function boardOpen(set,view){board.set=set;board.view=view;board.filter=0;imapViews();imapFilters();imapDraw();}
+
+  /* ---- меню и роутер ---- */
+  var navActive='home';
+  var MENU=[
+    {k:'home',t:'Главная',go:function(){showPage('home');}},
+    {k:'forsait',t:'Форсайт',go:function(){showPage('forsait');}},
+    {k:'ideas-grid',t:'Матрица идей',go:function(){boardOpen('ideas','grid');showPage('board');}},
+    {k:'ideas-graph',t:'Карта идей',go:function(){boardOpen('ideas','graph');showPage('board');}},
+    {k:'cases-grid',t:'Кейсы: матрица',go:function(){boardOpen('cases','grid');showPage('board');}},
+    {k:'cases-graph',t:'Кейсы: карта',go:function(){boardOpen('cases','graph');showPage('board');}},
+    {k:'ratings',t:'Рейтинги и отзывы',go:function(){showPage('ratings');}}
+  ];
+  function showPage(p){
+    document.querySelectorAll('.page').forEach(function(s){s.classList.toggle('active', s.id==='pg-'+p);});
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function buildNav(){
+    var nav=document.getElementById('nav'); nav.innerHTML='';
+    MENU.forEach(function(m){var b=imapEl('button',(navActive===m.k?'active':''),m.t); b.onclick=function(){navTo(m.k);}; nav.appendChild(b);});
+  }
+  function navTo(k){var m=MENU.filter(function(x){return x.k===k;})[0]; if(!m)return; navActive=k; buildNav(); m.go();}
+  function buildHome(){
+    var stats=[['11','тактов форсайта'],['22+12','экспертов (форсайт и круги идей)'],['15','трендов'],['17','форматов'],['10','проектов'],['3','карьерных трека'],['108','идей в банке'],['93','кейса вузов']];
+    var s=document.getElementById('home-stats'); s.innerHTML='';
+    stats.forEach(function(p){s.innerHTML+='<div class="stat"><div class="num">'+p[0]+'</div><div class="lbl">'+p[1]+'</div></div>';});
+    var cards=[
+      ['forsait','&#129517;','Форсайт','11 тактов Rapid Foresight: тренды, форматы, проекты, дорожная карта, три карьерных трека.'],
+      ['ideas-grid','&#9638;','Матрица идей','108 идей по осям скорость и смелость.'],
+      ['ideas-graph','&#128376;','Карта идей','108 идей графом знаний по 12 направлениям.'],
+      ['cases-grid','&#9638;','Кейсы: матрица','93 кейса вузов по осям регион и результат.'],
+      ['cases-graph','&#128376;','Кейсы: карта','93 кейса графом по типам механизмов; цвет - результат.'],
+      ['ratings','&#9733;','Рейтинги и отзывы','Политех в рейтингах и в отзывах сотрудников.']
+    ];
+    var c=document.getElementById('home-cards'); c.innerHTML='';
+    cards.forEach(function(m){var b=document.createElement('button'); b.className='mcard'; b.onclick=function(){navTo(m[0]);};
+      b.innerHTML='<div class="mt"><span class="ic">'+m[1]+'</span>'+m[2]+'</div><div class="md">'+m[3]+'</div>'; c.appendChild(b);});
+  }
   document.getElementById('imap-modal').addEventListener('click',function(e){if(e.target===this)imapCloseModal();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')imapCloseModal();});
-  imapViews(); imapFilters(); imapDraw();
+  buildHome(); buildNav(); showPage('home');
 </script>
 </body>
 </html>
