@@ -148,6 +148,8 @@
   .gedge.hub{stroke:#aab6d4;stroke-width:1.5}
   .ghub-t{font:700 13px 'Segoe UI',sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
   .gcenter-t{font:700 16px 'Segoe UI',sans-serif;fill:#0f1530;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+  .ghub-name{font:700 12.5px 'Segoe UI',sans-serif;fill:#0f1530;dominant-baseline:central;pointer-events:none;
+    paint-order:stroke;stroke:#fbfcff;stroke-width:4px;stroke-linejoin:round}
   .gdim{opacity:.08}
   /* modal popup */
   .imap-modal{display:none;position:fixed;inset:0;background:rgba(15,21,48,.55);z-index:999;
@@ -944,11 +946,14 @@
         var r=x.u?10:7;
         leaves+='<circle class="gnode'+(dimg?' gdim':'')+'" data-id="'+x.id+'" cx="'+lx.toFixed(1)+'" cy="'+ly.toFixed(1)+'" r="'+r+'" fill="'+col+'" stroke="'+(x.u?'#b8860b':'#ffffff')+'" stroke-width="'+(x.u?3:1.5)+'"><title>'+x.id+'. '+x.n+(x.u?' ★':'')+'</title></circle>';
       });
+      var lxr=cx+(R1+26)*Math.cos(ha), lyr=cy+(R1+26)*Math.sin(ha);
+      var anc=(Math.cos(ha)>=-0.05)?'start':'end';
       hubs+='<circle cx="'+hx.toFixed(1)+'" cy="'+hy.toFixed(1)+'" r="17" fill="'+col+'"'+(dimg?' opacity="0.12"':'')+'/>'+
-        '<text class="ghub-t" x="'+hx.toFixed(1)+'" y="'+hy.toFixed(1)+'"'+(dimg?' opacity="0.2"':'')+'>Г'+k+'</text>';
+        '<text class="ghub-t" x="'+hx.toFixed(1)+'" y="'+hy.toFixed(1)+'"'+(dimg?' opacity="0.2"':'')+'>Г'+k+'</text>'+
+        '<text class="ghub-name" x="'+lxr.toFixed(1)+'" y="'+lyr.toFixed(1)+'" text-anchor="'+anc+'"'+(dimg?' opacity="0.22"':'')+'>Г'+k+'. '+GROUPS[k].n+'</text>';
       ang=start+sweep;
     });
-    var svg='<svg viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg">'+edges+
+    var svg='<svg viewBox="-170 -60 1540 1220" xmlns="http://www.w3.org/2000/svg">'+edges+
       '<circle cx="550" cy="550" r="42" fill="#0f1530"/>'+
       '<text class="gcenter-t" x="550" y="543">108</text>'+
       '<text class="gcenter-t" x="550" y="563" style="font-size:11px;fill:#9fb1e6">идей</text>'+
