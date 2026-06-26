@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Форсайт HR в вузе - схема этапов</title>
+<style>
+  :root{
+    --ink:#0f1530; --muted:#5b6680; --line:#d7deec; --accent:#2f5bd4; --accent2:#e23b57;
+    --g1:#2f7bd4; --g2:#2aa775; --g3:#d98a1f; --gold:#b8860b;
+    --soft:#f4f6fc; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);
+    background:linear-gradient(180deg,#eef1f9 0%,#f7f9fd 100%);line-height:1.5;padding:0 0 60px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+  header{background:linear-gradient(135deg,#0f1530,#1d2a57);color:#fff;padding:42px 0 36px;margin-bottom:26px}
+  header .wrap{display:flex;flex-direction:column;gap:10px}
+  .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:#9fb1e6}
+  h1{font-size:30px;line-height:1.15;font-weight:700}
+  .sub{color:#c6d0ec;font-size:15px;max-width:760px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    padding:5px 11px;border-radius:20px;font-size:12.5px;color:#eaf0ff}
+  h2.section{font-size:15px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+    margin:30px 0 14px;border-bottom:2px solid var(--line);padding-bottom:7px}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+  .toolbar .note{font-size:13px;color:var(--muted)}
+  .btnall{border:1px solid var(--accent);background:#fff;color:var(--accent);font-size:12.5px;
+    padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+  .btnall:hover{background:var(--accent);color:#fff}
+  .timeline{position:relative;padding-left:34px}
+  .timeline::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:3px;
+    background:linear-gradient(180deg,var(--g1),var(--g2),var(--g3));border-radius:3px}
+  .stage{position:relative;margin-bottom:18px}
+  .dot{position:absolute;left:-34px;top:18px;width:22px;height:22px;border-radius:50%;
+    background:#fff;border:4px solid var(--accent);box-shadow:0 0 0 4px #eef1f9}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;box-shadow:0 4px 16px rgba(20,30,70,.06)}
+  .card h3{font-size:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .tnum{background:var(--accent);color:#fff;font-size:12.5px;font-weight:700;
+    padding:3px 9px;border-radius:7px;white-space:nowrap}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  @media(max-width:680px){.row{grid-template-columns:1fr}}
+  .box{background:var(--soft);border-radius:10px;padding:11px 13px}
+  .box .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    font-weight:700;margin-bottom:5px;display:block}
+  .box p{font-size:13.5px}
+  .res{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .pill{background:#eaf0ff;color:#21408a;font-size:12px;padding:3px 9px;border-radius:14px;font-weight:600}
+  .concl{margin-top:12px;border-left:4px solid var(--accent2);background:#fff4f6;
+    padding:9px 13px;border-radius:0 10px 10px 0;font-size:13.5px}
+  .concl b{color:var(--accent2)}
+  .prep .dot{border-color:var(--gold)}
+  .final .dot{border-color:var(--g2);width:26px;height:26px;left:-36px}
+  /* toggle + detail */
+  .toggle{margin-top:13px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    border:1px solid var(--line);background:#fbfcff;border-radius:9px;padding:8px 13px;
+    font-size:13px;font-weight:600;color:var(--accent);transition:.15s}
+  .toggle:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .toggle i{font-style:normal;transition:transform .2s;font-size:11px}
+  .toggle.on i{transform:rotate(180deg)}
+  .detail{display:none;margin-top:14px;padding:16px;border:1px dashed var(--line);
+    border-radius:12px;background:#fbfcff;animation:fade .2s ease}
+  .detail.open{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .detail h5{font-size:14px;color:var(--ink);margin:0 0 10px;letter-spacing:.02em}
+  .detail h5 .cnt{color:var(--muted);font-weight:600}
+  .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .dcol .dh{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px}
+  .dcol ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .dcol li{font-size:12.8px;color:#33405c;padding-left:14px;position:relative;line-height:1.4}
+  .dcol li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;
+    background:var(--accent);opacity:.55}
+  .dcode{font-weight:700;color:var(--ink)}
+  .hbadge{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:10px;margin-left:5px;vertical-align:middle}
+  .hb-near{background:#e2eefb;color:#1f5bb5}
+  .hb-mid{background:#e3f4ec;color:#1c7a52}
+  .hb-far{background:#fbeede;color:#a9640d}
+  .fw{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:4px}
+  .fw b{color:var(--accent)}
+  /* roadmap */
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+  @media(max-width:780px){.roadmap{grid-template-columns:1fr}}
+  .wave{border-radius:14px;padding:18px;color:#fff}
+  .w1{background:linear-gradient(135deg,#2f7bd4,#1f4fae)}
+  .w2{background:linear-gradient(135deg,#2aa775,#177a52)}
+  .w3{background:linear-gradient(135deg,#d98a1f,#a9640d)}
+  .wave h4{font-size:15px;margin-bottom:4px}
+  .wave .yr{font-size:12px;opacity:.85;margin-bottom:10px}
+  .wave ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .wave li{font-size:13px;background:rgba(255,255,255,.14);padding:7px 10px;border-radius:8px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:6px 0 10px;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:13px;height:13px;border-radius:3px;display:inline-block}
+  footer{margin-top:34px;color:var(--muted);font-size:12.5px;text-align:center}
+  .pyramid{background:#161e3d;color:#fff;border-radius:14px;padding:20px;margin-top:6px}
+  .pyramid h4{margin-bottom:10px}
+  .pyr-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:baseline}
+  .pyr-row .t{font-size:12px;color:#9fb1e6;width:120px;flex-shrink:0}
+  .pyr-row .v{font-size:13px;flex:1;min-width:240px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="kicker">Rapid Foresight - быстрый форсайт</span>
+    <h1>Форсайт развития кадров в СПбПУ</h1>
+    <p class="sub">Полный проход по методике Rapid Foresight: от трендов надсистемы до дорожной карты.
+    Нажимайте на кнопки внутри этапов, чтобы раскрыть конкретные формулировки.</p>
+    <div class="meta">
+      <span class="chip">Горизонты: 2026 · 2028 · 2031 · 2036-2041</span>
+      <span class="chip">3 рабочие группы</span>
+      <span class="chip">15 трендов · 15 технологий · 17 форматов</span>
+      <span class="chip">17 норм · 14 субъектов · 12 событий</span>
+      <span class="chip">7 ставок · 8 проектов</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="legend">
+    <span><i class="sw" style="background:#2f7bd4"></i>Группа 1 - люди, демография, рынок труда</span>
+    <span><i class="sw" style="background:#2aa775"></i>Группа 2 - технологии и форматы</span>
+    <span><i class="sw" style="background:#d98a1f"></i>Группа 3 - экономика, государство</span>
+  </div>
+
+  <h2 class="section">Этапы форсайта (такты)</h2>
+  <div class="toolbar">
+    <button class="btnall" onclick="allDetails(true)">Развернуть всё</button>
+    <button class="btnall" onclick="allDetails(false)">Свернуть всё</button>
+    <span class="note">Внутри каждого этапа - кнопка с реальным содержимым (формулировки, рамка, списки).</span>
+  </div>
+
+  <div class="timeline">
+
+    <!-- Подготовка -->
+    <div class="stage prep">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 0-1</span> Подготовка: предмет и границы</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Определили предмет, границы и надсистему,
+            горизонты карты времени, состав трех групп и 22 участников.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">Рамка форсайта</span><span class="pill">3 группы</span>
+            <span class="pill">4 горизонта</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> предмет - вся работа с людьми; тренды смотрим в надсистеме.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать предмет и рамку</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Предмет, границы и горизонты</h5>
+          <div class="fw">
+            <p><b>Предмет:</b> подбор, адаптация, развитие, оценка, мотивация и оплата, карьера, удержание,
+            расставание со всеми категориями персонала (ППС, научные, АУП, инженерно-технический персонал).</p>
+            <p style="margin-top:7px"><b>Надсистема +1:</b> высшее образование и наука, рынок труда, демография.
+            <b>Надсистема +2:</b> экономика и технологии страны и мира.</p>
+            <p style="margin-top:7px"><b>Горизонты карты времени:</b> сегодня - 2026; ближний - 2028;
+            средний - 2031; дальний - 2036-2041; плюс "чулан" (очевидное-невероятное).</p>
+            <p style="margin-top:7px"><b>Группы:</b> (1) Люди, демография, рынок труда; (2) Технологии и форматы
+            труда и обучения; (3) Экономика, государство, конкуренция за кадры.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 2 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 2</span> Тренды</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Три группы генерировали тренды надсистемы
+            по формуле "динамика + явление + сфера" с измеримым индикатором.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">15 трендов</span><span class="pill">4 кластера</span>
+            <span class="pill">5 карточек "чулан"</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> почти все тренды сходятся к ~2031. Самые надежные (назвали все группы):
+          разрыв в оплате и устаревание навыков.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать 15 трендов</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Тренды по кластерам <span class="cnt">(формулировки)</span></h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#2f7bd4">А. Дефицит людей</span>
+              <ul>
+                <li><span class="dcode">Т1.</span> Сокращение числа молодежи трудоспособного возраста (демографическая яма)</li>
+                <li><span class="dcode">Т2.</span> Старение коллектива ППС и научных, разрыв поколений</li>
+                <li><span class="dcode">Т3.</span> Рост дефицита инженерных и научно-технических кадров на рынке</li>
+                <li><span class="dcode">Т8.</span> Усиление конкуренции за технические таланты</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#d98a1f">Б. Цена и условия труда</span>
+              <ul>
+                <li><span class="dcode">Т4.</span> Рост разрыва в оплате между вузом, промышленностью и IT</li>
+                <li><span class="dcode">Т5.</span> Распространение гибких, проектных и совместительских форм занятости</li>
+                <li><span class="dcode">Т7.</span> Смена ценностей поколений: смысл, гибкость, рост важнее стабильности</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2aa775">В. Технологии меняют труд</span>
+              <ul>
+                <li><span class="dcode">Т9.</span> Рост доли умственной рутины, выполняемой ИИ</li>
+                <li><span class="dcode">Т6.</span> Ускорение устаревания навыков, спрос на переподготовку</li>
+                <li><span class="dcode">Т10.</span> Переход от диплома к подтвержденным навыкам</li>
+                <li><span class="dcode">Т11.</span> Рост управления людьми на основе данных и цифровых профилей</li>
+                <li><span class="dcode">Т12.</span> Рост непрерывного обучения "в потоке работы"</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2aa775">Г. Государство и работодатели</span>
+              <ul>
+                <li><span class="dcode">Т13.</span> Привязка бюджета вузов к госпоказателям</li>
+                <li><span class="dcode">Т14.</span> Спрос государства на техсуверенитет и импортозамещение</li>
+                <li><span class="dcode">Т15.</span> Рост целевого обучения и форм "вуз-предприятие"</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#5b6680">Чулан (очевидное-невероятное)</span>
+              <ul>
+                <li>Диплом теряет роль пропуска в профессию</li>
+                <li>Возврат практиков 35-45 лет в вуз из индустрии</li>
+                <li>ИИ как штатный "сотрудник" кафедры</li>
+                <li>Постоянная ставка - не правило, а опция ("созвездие" людей)</li>
+                <li>Работодатели - прямые конкуренты вузу по обучению</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 3 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 3</span> Технологии</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Привязали инструменты (программные и технические
+            решения) к линиям трендов, разнесли по горизонтам.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">15 технологий</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> данные - фундамент; навыки - сквозная линия: карта -&gt; обучение -&gt; подтверждение.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать 15 технологий</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Технологии по горизонтам</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#1f5bb5">Ближний (~2028)<span class="hbadge hb-near">данные и рутина</span></span>
+              <ul>
+                <li><span class="dcode">ТХ1.</span> Единая кадровая платформа на данных</li>
+                <li><span class="dcode">ТХ6.</span> ИИ-ассистент кадровой и учебной рутины</li>
+                <li><span class="dcode">ТХ9.</span> Система расчета эффективного контракта</li>
+                <li><span class="dcode">ТХ11.</span> Платформа целевого обучения</li>
+                <li><span class="dcode">ТХ12.</span> Госплатформы учета кадров и науки</li>
+                <li><span class="dcode">ТХ13.</span> Суверенное хранилище кадровых данных</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#1c7a52">Средний (~2031)<span class="hbadge hb-mid">прогноз и навыки</span></span>
+              <ul>
+                <li><span class="dcode">ТХ2.</span> Предиктивная аналитика оттока</li>
+                <li><span class="dcode">ТХ3.</span> Прогноз кадровой потребности</li>
+                <li><span class="dcode">ТХ4.</span> Карта навыков и подбор по навыкам</li>
+                <li><span class="dcode">ТХ5.</span> Оценка и подтверждение навыков</li>
+                <li><span class="dcode">ТХ7.</span> Адаптивное обучение и переподготовка</li>
+                <li><span class="dcode">ТХ8.</span> Биржа проектной занятости</li>
+                <li><span class="dcode">ТХ10.</span> Аналитика оплаты труда</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#a9640d">Дальний (2036-2041)<span class="hbadge hb-far">моделирование</span></span>
+              <ul>
+                <li><span class="dcode">ТХ14.</span> Цифровой двойник кадрового состава</li>
+                <li><span class="dcode">ТХ15.</span> Цифровой двойник карьеры и виртуальные наставники</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 4 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 4</span> Форматы</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Сгенерировали социальные практики - новые формы
+            организации труда, карьеры и обучения.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">17 форматов</span><span class="pill">6 мегапроектов</span>
+            <span class="pill">2 новые профессии</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> вуз уходит от штатного расписания к сборке людей по навыкам.
+          Новые профессии: преподаватель-практик и наставник ИИ.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать 17 форматов</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Форматы по горизонтам</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#1f5bb5">Ближний (~2028)</span>
+              <ul>
+                <li><span class="dcode">Ф1.</span> Люди по навыкам, а не по должностям</li>
+                <li><span class="dcode">Ф2.</span> Внутренняя биржа задач</li>
+                <li><span class="dcode">Ф3.</span> Наставничество "молодой + опытный"</li>
+                <li><span class="dcode">Ф4.</span> Разговор на опережение (удержание)</li>
+                <li><span class="dcode">Ф5.</span> Преподаватель-практик с разделенной ставкой</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#1c7a52">Средний (~2031)</span>
+              <ul>
+                <li><span class="dcode">Ф6.</span> "Созвездие вуза" + биржа гибкой занятости</li>
+                <li><span class="dcode">Ф7.</span> Личный маршрут роста</li>
+                <li><span class="dcode">Ф8.</span> Выращивание смены ППС</li>
+                <li><span class="dcode">Ф9.</span> Обучение в потоке работы</li>
+                <li><span class="dcode">Ф10.</span> Корпоративный университет СПбПУ</li>
+                <li><span class="dcode">Ф11.</span> Пара "человек + ИИ", роль "наставник ИИ"</li>
+                <li><span class="dcode">Ф12.</span> Трехсторонний целевой контракт</li>
+                <li><span class="dcode">Ф13.</span> Эффективный контракт с надбавкой индустрии</li>
+                <li><span class="dcode">Ф14.</span> Кадровый резерв "вуз-предприятие"</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#a9640d">Дальний (2033-2041)</span>
+              <ul>
+                <li><span class="dcode">Ф15.</span> Госчастный фонд софинансирования оплаты</li>
+                <li><span class="dcode">Ф16.</span> Сквозной маршрут "школа - вуз - завод"</li>
+                <li><span class="dcode">Ф17.</span> Единое окно кадровых отношений</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 5 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 5</span> Нормативные акты</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Определили, что закрепить в законах, приказах и
+            положениях, чтобы форматы стали законными. Группа с юристом проверяла реалистичность.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">17 актов</span><span class="pill">8 - локально</span>
+            <span class="pill">3 - федерально</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> большую часть можно своими силами; оплату - только по Трудовому кодексу;
+          часть - федеральный уровень.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать 17 актов</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Нормативные акты по уровню</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#1c7a52">Можно своими силами (~2028)</span>
+              <ul>
+                <li><span class="dcode">НА1.</span> Положение об эффективном контракте</li>
+                <li><span class="dcode">НА2.</span> Преподаватель-практик и разделенная ставка</li>
+                <li><span class="dcode">НА3.</span> Оплачиваемое наставничество</li>
+                <li><span class="dcode">НА4.</span> Маршрут роста и разговор о развитии</li>
+                <li><span class="dcode">НА5.</span> Платформа данных и карта навыков (с согласия на ПДн)</li>
+                <li><span class="dcode">НА6.</span> Внутренний реестр навыков</li>
+                <li><span class="dcode">НА7.</span> Роль "наставник ИИ"</li>
+                <li><span class="dcode">НА12.</span> Программа закрепления молодых</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#d98a1f">При условии: договоры, юрист (~2031)</span>
+              <ul>
+                <li><span class="dcode">НА8.</span> Внутренняя биржа задач</li>
+                <li><span class="dcode">НА9.</span> Корпоративный университет</li>
+                <li><span class="dcode">НА10.</span> Надбавка от индустрии</li>
+                <li><span class="dcode">НА11.</span> Трехсторонний целевой контракт</li>
+                <li><span class="dcode">НА13.</span> Единое окно и "созвездие"</li>
+                <li><span class="dcode">НА15.</span> Региональный кадровый резерв</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#e23b57">Нужны федеральные изменения</span>
+              <ul>
+                <li><span class="dcode">НА14.</span> Госчастный фонд оплаты (госчасть)</li>
+                <li><span class="dcode">НА16.</span> Приказ Минобрнауки об эффективном контракте с надбавкой</li>
+                <li><span class="dcode">НА17.</span> Признание навыков наравне с дипломом, профстандарты, техсуверенитет данных</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 6 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 6</span> Угрозы и возможности</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Оценили явления через вопрос "для кого?":
+            одно и то же - угроза одному, возможность другому.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">по 13 субъектам</span><span class="pill">5 узлов двойственности</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> каждый тренд - медаль с двумя сторонами. Зона риска - ИТР и опытные
+          преподаватели, зона роста - молодые и студенты.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать узлы и группы</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Двойственность</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#e23b57">Зона риска</span>
+              <ul>
+                <li>Инженерно-технический персонал и лаборанты - их рутину автоматизируют первой</li>
+                <li>Опытные преподаватели - давление переобучения, обесценивание стажа</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2aa775">Зона роста</span>
+              <ul>
+                <li>Молодые ученые - ускоренный карьерный лифт, ИИ снимает рутину</li>
+                <li>Студенты - сильная переговорная позиция, ранний выход по навыкам</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2f5bd4">Пять узлов двойственности</span>
+              <ul>
+                <li>ИИ для преподавателя: освобождение времени ↔ страх замены</li>
+                <li>Данные о людях: управление по фактам ↔ цифровой надзор</li>
+                <li>Целевое обучение и дефицит: деньги ↔ увод студентов</li>
+                <li>Найм по навыкам: угроза диплому ↔ роль центра признания навыков</li>
+                <li>Устаревание навыков: превращает возможность в угрозу для отстающих</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 7 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 7</span> Субъектная карта ("шестеренка")</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Построили карту игроков: интересы, ставки,
+            потоки (люди, деньги, данные, требования), конфликты.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">14 субъектов</span><span class="pill">6 конфликтов</span>
+            <span class="pill">5 дефицитных ролей</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> вуз готовит кадры, а встречный поток - их утечка. Модель удержится,
+          если превратить отток в обмен.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать роли и конфликты</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Дефицитные роли и узлы конфликтов</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#2f5bd4">5 дефицитных, но необходимых ролей</span>
+              <ul>
+                <li>Владелец кадровой стратегии (единый ответственный с бюджетом)</li>
+                <li>Центр развития персонала</li>
+                <li>Связка с индустрией (постоянный мост вуз-предприятие)</li>
+                <li>Аналитик данных о людях</li>
+                <li>Институт наставничества</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#e23b57">6 узлов конфликтов</span>
+              <ul>
+                <li>Ректорат vs преподаватель: показатели против нагрузки</li>
+                <li>Вуз vs рынок: деньги против миссии</li>
+                <li>Опытный ППС vs новые требования: сопротивление переобучению</li>
+                <li>Кадры vs потребность: оформление против развития</li>
+                <li>Государство vs возможности вуза: требования растут быстрее ресурсов</li>
+                <li>Новые роли vs уклад: им нет места в штате</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 8-9 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 8-9</span> События и ставки</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Расставили измеримые точки перелома трендов
+            (события) и приоритеты вуза (ставки).</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">12 событий</span><span class="pill">7 ставок</span>
+            <span class="pill">3 опорные</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> три опорные ставки - хозяин стратегии и данные, связка с индустрией,
+          конвейер смены поколений.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать события и ставки</span><i>▾</i></button>
+        <div class="detail">
+          <h5>События (маркеры) и ставки (приоритеты)</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#e23b57">События - точки боли</span>
+              <ul>
+                <li><span class="dcode">С1.</span> Доля ППС старше 60 лет выше 40% (2028)</li>
+                <li><span class="dcode">С2.</span> Зарплата в промышленности в 1,8-2 раза выше доцента (2028)</li>
+                <li><span class="dcode">С3.</span> Конкурс на инженерные кафедры ниже 2 чел/место (2031)</li>
+                <li><span class="dcode">С4.</span> Половина кадровой рутины вручную (2028)</li>
+                <li><span class="dcode">С5.</span> Закрепление целевиков ниже 30% (2031)</li>
+                <li><span class="dcode">С6.</span> Навык устаревает за 3 года (2031)</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2aa775">События - позитивные маркеры</span>
+              <ul>
+                <li><span class="dcode">С7.</span> Назначен владелец кадровой стратегии (2028)</li>
+                <li><span class="dcode">С8.</span> Запущена единая база данных о людях (2031)</li>
+                <li><span class="dcode">С9.</span> Доля ППС моложе 40 лет выше 35% (2036+)</li>
+                <li><span class="dcode">С10.</span> Совместные ставки на 20%+ кафедр (2031)</li>
+                <li><span class="dcode">С11.</span> Наставник у каждого молодого (2031)</li>
+                <li><span class="dcode">С12.</span> Найм и рост по карте навыков (2036+)</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#d98a1f">7 ставок (приоритеты)</span>
+              <ul>
+                <li><b>Ставка 1.</b> Хозяин стратегии и данные <span class="hbadge hb-far">высший</span></li>
+                <li><b>Ставка 2.</b> Связка с индустрией <span class="hbadge hb-far">высший</span></li>
+                <li><b>Ставка 3.</b> Конвейер смены поколений <span class="hbadge hb-far">высший</span></li>
+                <li>Ставка 4. Управление по навыкам</li>
+                <li>Ставка 5. Отдать рутину ИИ</li>
+                <li>Ставка 6. Целевое обучение как канал кадров</li>
+                <li>Ставка 7. Закрыть разрыв в оплате нестандартно</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 10 -->
+    <div class="stage">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 10</span> Проекты</h3>
+        <div class="row">
+          <div class="box"><span class="lbl">Что делалось</span><p>Под каждую ставку - конкретный проект:
+            образ результата, действующие лица, план на месяц, полгода, год.</p></div>
+          <div class="box"><span class="lbl">Результат</span>
+            <div class="res"><span class="pill">8 проектов</span></div></div>
+        </div>
+        <div class="concl"><b>Вывод:</b> проекты связаны в цепочку: данные -&gt; навыки -&gt; снятие рутины;
+          хозяин стратегии -&gt; связка с индустрией -&gt; приток своих кадров.</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать 8 проектов</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Проекты под ставки</h5>
+          <div class="dgrid">
+            <div class="dcol"><span class="dh" style="color:#2f5bd4">Фундамент</span>
+              <ul>
+                <li><span class="dcode">П1.</span> Хозяин кадровой стратегии - ответственный с бюджетом и стратегией на 5 лет</li>
+                <li><span class="dcode">П2.</span> Люди в цифрах - единая база и аналитика, прогноз оттока</li>
+                <li><span class="dcode">П3.</span> Смена - приток молодых и наставничество</li>
+                <li><span class="dcode">П4.</span> Удержать не деньгами - маршрут роста, биржа задач</li>
+              </ul></div>
+            <div class="dcol"><span class="dh" style="color:#2aa775">Перестройка</span>
+              <ul>
+                <li><span class="dcode">П5.</span> Общие люди - совместные ставки и кадровый резерв с индустрией</li>
+                <li><span class="dcode">П6.</span> Навыки важнее диплома - карта навыков, центр развития</li>
+                <li><span class="dcode">П7.</span> Рутину - машине - ИИ-ассистент, роль наставника ИИ</li>
+                <li><span class="dcode">П8.</span> Свой маршрут - целевое обучение, доходящее до работодателя</li>
+              </ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Такт 11 -->
+    <div class="stage final">
+      <div class="dot"></div>
+      <div class="card">
+        <h3><span class="tnum">Такт 11</span> Сведение - дорожная карта</h3>
+        <div class="box"><span class="lbl">Что делалось</span><p>Ведущий собрал все такты в единую дорожную карту:
+          проекты по трем волнам, связи, ответственные, маркеры, параллельный трек федеральных запросов.</p></div>
+        <div class="concl"><b>Итог:</b> форсайт по методике Rapid Foresight пройден полностью (такты 1-11).</div>
+        <button class="toggle" onclick="tog(this)"><span>Показать рамку стратегии</span><i>▾</i></button>
+        <div class="detail">
+          <h5>Рамка стратегии (структура дорожной карты)</h5>
+          <div class="fw">
+            <p>Документ строится по <b>жизненному циклу сотрудника</b>, каждый раздел по схеме
+            "проблема - цель - меры - показатель - срок - ответственный":</p>
+            <p style="margin-top:7px">1. Где мы сейчас (диагностика и данные) · 2. Куда идем (цели, связь с миссией) ·
+            3. Привлечение и подбор · 4. Адаптация · 5. Развитие и карьера · 6. Удержание и мотивация ·
+            7. Управление расставанием · 8. Управление и аналитика.</p>
+            <p style="margin-top:9px"><b>Параллельный трек (федеральный уровень):</b> разделенная ставка,
+            устойчивость надбавки от индустрии, признание навыков наравне с дипломом, госчасть фонда оплаты,
+            методика эффективного контракта.</p>
+            <p style="margin-top:9px"><b>Красные флаги:</b> оплата - только по ТК; надбавка живет, пока платит
+            предприятие; данные - только с согласия; решения о людях остаются за людьми; беречь ИТР.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="section">Дорожная карта - три волны</h2>
+  <div class="roadmap">
+    <div class="wave w1">
+      <h4>Волна 1. Фундамент</h4>
+      <div class="yr">2026-2028 · своими силами, по Трудовому кодексу</div>
+      <ul>
+        <li>П1. Хозяин кадровой стратегии</li>
+        <li>П2. Люди в цифрах (данные)</li>
+        <li>П3. Смена (молодые + наставничество)</li>
+        <li>П4. Удержать не деньгами</li>
+      </ul>
+    </div>
+    <div class="wave w2">
+      <h4>Волна 2. Перестройка</h4>
+      <div class="yr">2028-2031 · договоры, нормы, проверка юриста</div>
+      <ul>
+        <li>П5. Общие люди (связка с индустрией)</li>
+        <li>П6. Навыки важнее диплома</li>
+        <li>П7. Рутину - машине, смысл - человеку</li>
+        <li>П8. Свой маршрут (целевое обучение)</li>
+      </ul>
+    </div>
+    <div class="wave w3">
+      <h4>Волна 3. Закрепление</h4>
+      <div class="yr">2031-2041 · новая норма + федеральный уровень</div>
+      <ul>
+        <li>Омоложение состава (ППС моложе 40 - выше 35%)</li>
+        <li>Управление по навыкам как норма</li>
+        <li>Сквозной маршрут "школа - вуз - завод"</li>
+        <li>Федеральные нормы: ставка, надбавка, навыки</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">Главный смысл форсайта</h2>
+  <div class="pyramid">
+    <h4>От поставщика дипломов - к организатору кадрового обмена</h4>
+    <div class="pyr-row"><span class="t">Проблема</span><span class="v">К 2031 старая модель (штатная ставка,
+      диплом, оплата ниже рынка) ломается: людей мало, навыки устаревают, кадры вымывает рынок.</span></div>
+    <div class="pyr-row"><span class="t">Решение</span><span class="v">Управлять по данным и навыкам,
+      превратить отток в обмен с индустрией, растить смену через наставничество.</span></div>
+    <div class="pyr-row"><span class="t">Фундамент</span><span class="v">Три опорные ставки: хозяин стратегии
+      и данные · связка с индустрией · конвейер смены поколений.</span></div>
+    <div class="pyr-row"><span class="t">Дисциплина</span><span class="v">Оплата - только по ТК; данные -
+      только с согласия; решения о людях остаются за людьми; беречь инженерно-технический персонал.</span></div>
+  </div>
+
+  <footer>
+    Форсайт-сессия по методике Rapid Foresight · Дирекция по работе с персоналом СПбПУ ·
+    нажмите на кнопки внутри этапов, чтобы раскрыть формулировки. Пороговые значения событий - ориентир.
+  </footer>
+</div>
+
+<script>
+  function tog(btn){
+    var card = btn.closest('.card');
+    var d = card.querySelector('.detail');
+    var open = d.classList.toggle('open');
+    btn.classList.toggle('on', open);
+    var span = btn.querySelector('span');
+    btn.dataset.label = btn.dataset.label || span.textContent;
+    span.textContent = open ? 'Скрыть' : btn.dataset.label;
+  }
+  function allDetails(open){
+    document.querySelectorAll('.card').forEach(function(card){
+      var d = card.querySelector('.detail');
+      var btn = card.querySelector('.toggle');
+      if(!d || !btn) return;
+      d.classList.toggle('open', open);
+      btn.classList.toggle('on', open);
+      var span = btn.querySelector('span');
+      btn.dataset.label = btn.dataset.label || span.textContent;
+      span.textContent = open ? 'Скрыть' : btn.dataset.label;
+    });
+  }
+</script>
+</body>
+</html>
